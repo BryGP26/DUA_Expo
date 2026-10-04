@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DUA · Diseño Universal para el Aprendizaje</title>
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --tx: #0f172a;
+            --mu: #475569;
+            --bd: #e2e8f0;
+            --p: #6d4fc2;
+            --pl: #f3eefc;
+            --w: #0d9488;
+            --wl: #ccfbf1;
+            --h: #e11d48;
+            --hl: #ffe4e6;
+            --accent: #f59e0b;
+            --shadow: 0 4px 14px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+            --radius: 14px;
+            --correct-bg: #f0fff4;
+            --correct-border: #38a169;
+            --incorrect-bg: #fff5f5;
+            --incorrect-border: #e53e3e;
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--tx);
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+        }
+
+        #bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--p), var(--w));
+            width: 0;
+            z-index: 100;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--card);
+            border-bottom: 1px solid var(--bd);
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding: 10px 16px;
+            font-size: 14px;
+            box-shadow: var(--shadow);
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            white-space: nowrap;
+            color: var(--mu);
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 99px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        nav a:hover, nav a.on { background: var(--pl); color: var(--p); }
+
+        /* Estilos de la Portada Tipo Formato APA Mejorada y Centrada */
+        .cover-section {
+            max-width: 800px;
+            margin: 50px auto 30px auto;
+            padding: 0 20px;
+        }
+        .cover-card {
+            background: var(--card);
+            border: 1px solid var(--bd);
+            border-radius: var(--radius);
+            padding: 50px 40px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .cover-logo img {
+            max-width: 140px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .cover-university {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--mu);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 25px;
+        }
+        .cover-title {
+            font-size: clamp(26px, 4vw, 36px);
+            font-weight: 800;
+            color: var(--tx);
+            margin-bottom: 35px;
+            line-height: 1.25;
+            max-width: 650px;
+        }
+        .cover-details {
+            width: 100%;
+            max-width: 550px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            text-align: center;
+            background: var(--bg);
+            padding: 24px 30px;
+            border-radius: 12px;
+            border: 1px solid var(--bd);
+            margin-top: 10px;
+            align-items: center;
+        }
+        .cover-item {
+            width: 100%;
+        }
+        .cover-item strong {
+            color: var(--p);
+            display: block;
+            margin-bottom: 4px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .cover-item span {
+            color: var(--tx);
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .cover-item ul {
+            list-style: none;
+            padding: 0;
+            margin: 4px 0 0 0;
+        }
+        .cover-item li {
+            color: var(--tx);
+            font-size: 15px;
+            font-weight: 500;
+            margin: 3px 0;
+        }
+
+        .hero {
+            padding: 40px 20px 20px;
+            max-width: 1050px;
+            margin: auto;
+            display: grid;
+            gap: 32px;
+            grid-template-columns: 1.2fr 1fr;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(28px, 4vw, 42px);
+            line-height: 1.15;
+            margin: 0.2em 0;
+            font-weight: 800;
+        }
+
+        .hero p { color: var(--mu); font-size: 18px; margin-bottom: 0; }
+
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; text-align: center; }
+            .hero figure { display: flex; justify-content: center; }
+            .cover-card { padding: 30px 20px; }
+        }
+
+        section { max-width: 1050px; margin: auto; padding: 40px 20px; }
+        section h2 { font-size: 28px; margin: 0 0 8px; font-weight: 700; }
+
+        .tag {
+            display: inline-block;
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--p);
+            font-weight: 700;
+            background: var(--pl);
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .lead { color: var(--mu); font-size: 17px; margin: 0 0 24px; }
+
+        .simple {
+            background: var(--hl);
+            border: 1px solid var(--bd);
+            border-left: 4px solid var(--h);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin: 0 0 24px;
+        }
+        .simple:before {
+            content: "💡 ";
+            font-weight: 700;
+            color: var(--h);
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--bd);
+            border-radius: var(--radius);
+            padding: 22px;
+            box-shadow: var(--shadow);
+        }
+
+        .grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        .reveal { opacity: 0; transform: translateY(20px); transition: 0.6s ease-out; }
+        .reveal.in { opacity: 1; transform: none; }
+
+        blockquote {
+            margin: 20px 0;
+            padding: 16px 20px;
+            border-left: 4px solid var(--w);
+            background: var(--wl);
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+        }
+
+        .tl-simple {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            margin: 24px 0;
+        }
+
+        .tl-card {
+            background: var(--card);
+            border: 1px solid var(--bd);
+            border-top: 4px solid var(--p);
+            border-radius: var(--radius);
+            padding: 18px;
+            box-shadow: var(--shadow);
+        }
+
+        .tl-badge {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--p);
+            background: var(--pl);
+            padding: 3px 10px;
+            border-radius: 99px;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .tl-card h4 { margin: 0 0 6px; font-size: 16px; color: var(--tx); }
+        .tl-card p { margin: 0; font-size: 14px; color: var(--mu); }
+
+        /* PESTAÑAS Y TABLAS */
+        .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+        .tabs button {
+            flex: 1;
+            min-width: 150px;
+            padding: 12px;
+            border: 2px solid var(--bd);
+            background: var(--card);
+            color: var(--tx);
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .tabs button.on { color: #fff; border-color: transparent; }
+        .tabs button[data-c="0"].on { background: var(--h); }
+        .tabs button[data-c="1"].on { background: var(--p); }
+        .tabs button[data-c="2"].on { background: var(--w); }
+
+        .pane { display: none; }
+        .pane.on { display: block; animation: f 0.4s ease; }
+        @keyframes f { from { opacity: 0; transform: translateY(6px); } }
+
+        .tw { overflow-x: auto; border: 1px solid var(--bd); border-radius: 12px; background: var(--card); margin: 20px 0; }
+        table { border-collapse: collapse; width: 100%; min-width: 550px; font-size: 15px; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--bd); }
+        th { background: var(--pl); color: var(--p); font-size: 13px; text-transform: uppercase; font-weight: 700; }
+
+        .flip { perspective: 800px; height: 180px; cursor: pointer; }
+        .flip > div { position: relative; width: 100%; height: 100%; transition: 0.6s; transform-style: preserve-3d; }
+        .flip.on > div { transform: rotateY(180deg); }
+        .flip .f, .flip .b {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            border-radius: var(--radius);
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: var(--shadow);
+        }
+
+        .f { background: var(--card); border: 1px solid var(--bd); }
+        .f h3 { margin: 0; font-size: 17px; color: var(--p); }
+        .f small { color: var(--mu); margin-top: 6px; }
+        .b { background: var(--p); color: #fff; transform: rotateY(180deg); font-size: 14px; }
+
+        details {
+            background: var(--card);
+            border: 1px solid var(--bd);
+            border-radius: 12px;
+            padding: 4px 16px;
+            margin: 10px 0;
+            box-shadow: var(--shadow);
+        }
+
+        summary { cursor: pointer; font-weight: 700; padding: 10px 0; outline: none; }
+        .pill { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 99px; color: #fff; display: inline-block; margin-top: 4px;}
+        .pill.h { background: var(--h); }
+        .pill.p { background: var(--p); }
+        .pill.w { background: var(--w); }
+
+        /* Estilos Actividad Dinámica / Quiz */
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--bd);
+            box-shadow: var(--shadow);
+        }
+
+        .case-card {
+            background: var(--bg);
+            border: 1px solid var(--bd);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .case-title {
+            font-size: 1.2rem;
+            color: var(--p);
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .case-scenario {
+            background: var(--card);
+            padding: 15px;
+            border-left: 4px solid var(--p);
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-style: italic;
+            border: 1px solid var(--bd);
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background-color: var(--card);
+            border: 2px solid var(--bd);
+            padding: 14px 18px;
+            text-align: left;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: var(--tx);
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover {
+            border-color: var(--p);
+            background-color: var(--pl);
+        }
+
+        .feedback {
+            margin-top: 12px;
+            padding: 12px 15px;
+            border-radius: 6px;
+            font-size: 0.92nsrem;
+            display: none;
+        }
+
+        .feedback.correct {
+            background-color: var(--correct-bg);
+            border: 1px solid var(--correct-border);
+            color: #22543d;
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background-color: var(--incorrect-bg);
+            border: 1px solid var(--incorrect-border);
+            color: #742a2a;
+            display: block;
+        }
+
+        footer { max-width: 1050px; margin: auto; padding: 40px 20px 60px; font-size: 14px; color: var(--mu); border-top: 1px solid var(--bd); }
+        footer ul { padding-left: 20px; }
+        footer li { margin: 8px 0; }
+    </style>
+</head>
+<body>
+
+<div id="bar"></div>
+
+<nav id="nav">
+    <a href="#portada">Portada</a>
+    <a href="#agenda">Agenda</a>
+    <a href="#s1">1. ¿Qué es?</a>
+    <a href="#s2">2. Características</a>
+    <a href="#s3">3. Importancia</a>
+    <a href="#s4">4. Beneficios</a>
+    <a href="#s5">5. Ejemplos</a>
+    <a href="#s6">6. Recomendaciones</a>
+    <a href="#s7">7. Conclusión</a>
+    <!--<a href="#actividad">Actividad</a>-->
+    <a href="#ref">Fuentes</a>
+</nav>
+
+<!-- PORTADA ORDENADA TIPO FORMATO APA CENTRADA -->
+<section id="portada" class="cover-section reveal">
+    <div class="cover-card">
+        <div class="cover-logo">
+            <img src="https://th.bing.com/th/id/R.ee171e87a681cfe960e83509fe46e156?rik=ZWq25DrMy6UBUA&riu=http%3a%2f%2finsigniang.com%2fwp-content%2fuploads%2f2019%2f05%2fProyectos-destacados-Ulicori-sello.jpg&ehk=gATv8U34LRQPRC0OdEfifcy2qr12a9efBjcaui%2bNUSg%3d&risl=&pid=ImgRaw&r=0" alt="Logo Universidad Libre de Costa Rica">
+        </div>
+        <div class="cover-university">
+            Universidad Libre de Costa Rica
+        </div>
+        <div class="cover-title">
+            Diseño Universal para el Aprendizaje (DUA)
+        </div>
+
+        <div class="cover-details">
+            <div class="cover-item">
+                <strong>Curso:</strong>
+                <span>Práctica Profesional II.</span>
+            </div>
+            <div class="cover-item">
+                <strong>Docente:</strong>
+                <span>Juan Carlos Garbanzo Fallas .</span>
+            </div>
+            <div class="cover-item">
+                <strong>Estudiantes:</strong>
+                <ul>
+                    <li>Aishelyn Guerrero Greenald.</li>
+                    <li>Bryan Gómez Peña.</li>
+                    <li>Onixsa Downs Cunningham.</li>
+                </ul>
+            </div>
+            <div class="cover-item">
+                <strong>Fecha / Año:</strong>
+                <span>octubre, 2026.</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- AGENDA DE LA EXPOSICIÓN -->
+<section id="agenda" class="reveal">
+    <span class="tag">Organización</span>
+    <h2>Agenda de la Presentación</h2>    
+    <div class="grid">
+        <div class="card" style="border-left: 4px solid var(--h);">
+            <h3>Onixsa Downs Cunningham</h3>
+            <p style="margin-top: 10px;"><b>Punto 1:</b> ¿Qué es el DUA?</p>
+            <p><b>Punto 2:</b> Las Características</p>
+        </div>
+        <div class="card" style="border-left: 4px solid var(--p);">
+            <h3>Aishelyn Guerrero Greenald</h3>
+            <p style="margin-top: 10px;"><b>Punto 3:</b> La Importancia</p>
+            <p><b>Punto 4:</b> Los Beneficios</p>
+        </div>
+        <div class="card" style="border-left: 4px solid var(--w);">
+            <h3>Bryan Gómez Peña</h3>
+            <p style="margin-top: 10px;"><b>Punto 5:</b> Ejemplos Prácticos en el Aula</p>
+            <p><b>Punto 6:</b> Recomendaciones para Empezar</p>
+            <p><b>Punto 7:</b> Conclusión</p>
+        </div>
+    </div>
+    <!----<div class="card" style="margin-top: 20px; border-left: 4px solid var(--accent); background: var(--card);">
+        <h3>👥 Actividad General (Punto 8)</h3>
+        <p style="margin-top: 5px; margin-bottom: 0;"><b>Desarrollada por los 3 integrantes:</b> Dinámica interactiva y casos de estudio conversados con el grupo para comprobar la asimilación del tema.</p>
+    </div>--->
+</section>
+
+<header class="hero">
+    <div>
+        <span class="tag">· Educación inclusiva</span>
+        <h1>Diseño Universal para el Aprendizaje (DUA)</h1>
+    </div>
+
+    <figure style="margin:0;">
+    <svg viewBox="0 0 360 320" width="100%" height="auto" style="max-width: 320px;"
+         role="img"
+         aria-label="Tres redes cerebrales conectadas mediante el Diseño Universal para el Aprendizaje">
+        <g fill="none" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="180" y1="55" x2="65" y2="250"/>
+            <line x1="180" y1="55" x2="295" y2="250"/>
+            <line x1="65" y1="250" x2="295" y2="250"/>
+        </g>
+        <circle cx="180" cy="55" r="46" fill="var(--h)" stroke="var(--h)" stroke-width="3"/>
+        <text x="180" y="52" text-anchor="middle" font-size="12" fill="#fff" font-weight="700">Afectiva</text>
+        <text x="180" y="68" text-anchor="middle" font-size="11" fill="#fff">¿POR QUÉ?</text>
+
+        <circle cx="65" cy="250" r="46" fill="var(--p)" stroke="var(--p)" stroke-width="3"/>
+        <text x="65" y="245" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">Reconocimiento</text>
+        <text x="65" y="262" text-anchor="middle" font-size="11" fill="#fff">¿QUÉ?</text>
+
+        <circle cx="295" cy="250" r="46" fill="var(--w)" stroke="var(--w)" stroke-width="3"/>
+        <text x="295" y="245" text-anchor="middle" font-size="11" fill="#fff" font-weight="700">Estratégica</text>
+        <text x="295" y="262" text-anchor="middle" font-size="11" fill="#fff">¿CÓMO?</text>
+
+        <circle cx="180" cy="185" r="43" fill="var(--pl)" stroke="var(--p)" stroke-width="3"/>
+        <text x="180" y="181" text-anchor="middle" font-size="16" font-weight="800" fill="var(--p)">DUA</text>
+        <text x="180" y="199" text-anchor="middle" font-size="11" fill="var(--mu)">Todos aprenden</text>
+    </svg>
+</figure>
+</header>
+
+<!-- SECCIÓN 1: ¿Qué es el DUA? -->
+<section id="s1" class="reveal">
+    <span class="tag">Punto 1 · Onixsa Downs Cunningham</span>
+    <h2>¿Qué es el DUA?</h2>
+    <p class="lead">Un enfoque educativo que prepara la clase desde el inicio para diferentes formas de aprender.</p>
+    
+    <div class="simple">
+        El DUA consiste en <b>planear la clase sabiendo que nadie aprende exactamente igual</b>. En lugar de esperar a que alguien se quede atrás para ayudarle, se preparan distintas opciones desde el primer día. Imagina un edificio con gradas y rampa: ambos llegan al mismo piso, pero cada quien usa lo que le sirve.
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Definición Básica</h3>
+            <p>Creado por el equipo de <b>CAST</b>, plantea que el problema no es la capacidad del estudiante, sino las clases y materiales rígidos que no dan alternativas.<br> (Alba Pastor et al., 2013; CAST, 2024).</p>
+        </div>
+        <div class="card">
+            <h3>La Meta</h3>
+            <p>Formar estudiantes motivados, independientes y capaces de construir su propio conocimiento aprovechando sus mejores habilidades.</p>
+        </div>
+        <div class="card">
+            <h3>Origen del Nombre</h3>
+            <p>Viene del "Diseño Universal" de la arquitectura: cuando construyes una rampa, beneficia a una persona en silla de ruedas, pero también a un coche de bebé o a una entrega de carga.</p>
+        </div>
+    </div>
+
+    <blockquote>“La Convención de la ONU (art. 2) señala que el diseño universal busca que productos, entornos y clases sean usables por todas las personas sin necesidad de adaptaciones raras sobre la marcha.”</blockquote>
+
+    <h3 style="margin-top: 35px;">¿Cómo nació y evolucionó el DUA?</h3>
+    <p class="lead" style="font-size:15px;">Resumen del recorrido histórico:</p>
+    
+    <div class="tl-simple">
+        <div class="tl-card">
+            <span class="tl-badge">1. Años 70 y 80</span>
+            <h4>Origen en la Arquitectura</h4>
+            <p>Nace la idea de diseñar edificios y objetos accesibles para todas las personas desde los planos iniciales.</p>
+        </div>
+        <div class="tl-card">
+            <span class="tl-badge">2. Años 90</span>
+            <h4>El Salto a la Educación</h4>
+            <p>El grupo CAST descubre que las clases tradicionales y los libros impresos son la barrera principal para muchos alumnos.</p>
+        </div>
+        <div class="tl-card">
+            <span class="tl-badge">3. Década del 2000</span>
+            <h4>Se Crean las Pautas DUA</h4>
+            <p>Se organizan los 3 principios clave y se publican las guías para que los docentes las usen en sus aulas.</p>
+        </div>
+        <div class="tl-card">
+            <span class="tl-badge">4. Actualidad (2024)</span>
+            <h4>DUA Versión 3.0</h4>
+            <p>Se actualiza para dar más importancia a la identidad de cada estudiante, la colaboración entre compañeros y la alegría de aprender.</p>
+        </div>
+    </div>
+</section>
+
+<!-- SECCIÓN 2: Las Características -->
+<section id="s2" class="reveal">
+    <span class="tag">Punto 2 · Onixsa Downs Cunningham</span>
+    <h2>Las Características</h2>
+    <p class="lead">Tres principios sencillos basados en cómo funciona nuestro cerebro:</p>
+
+    <div class="simple">
+        Los tres principios responden a: 
+        <ul style="margin: 5px 0 0 20px;">
+            <li><b>¿Por qué aprendo?</b> (motivación).</li>
+            <li><b>¿Qué aprendo?</b> (cómo me presentan los datos).</li>
+            <li><b>¿Cómo demuestro lo que aprendí?</b> (cómo me expreso).</li>
+        </ul>
+    </div>
+
+    <div class="tabs" id="tabs">
+        <button class="on" data-c="0">1. ¿Por qué aprendo? (Motivación)</button>
+        <button data-c="1">2. ¿Qué aprendo? (Presentación)</button>
+        <button data-c="2">3. ¿Cómo expreso? (Acción)</button>
+    </div>
+
+    <div class="pane on card">
+        <h3 style="color:var(--h);">Múltiples formas de Implicación</h3>
+        <p>Busca despertar el interés y mantener la motivación por aprender.</p>
+        <ul style="padding-left: 20px;">
+            <li>Dar opciones para elegir temas o proyectos según los gustos personales.</li>
+            <li>Promover el trabajo en equipo y el apoyo entre compañeros.</li>
+            <li>Enseñar a manejar la frustración y mantener el esfuerzo.</li>
+        </ul>
+    </div>
+
+    <div class="pane card">
+        <h3 style="color:var(--p);">Múltiples formas de Representación</h3>
+        <p>Entrega la información en diferentes formatos para que nadie se quede fuera.</p>
+        <ul style="padding-left: 20px;">
+            <li>Usar imágenes, explicaciones en voz alta, lecturas y videos con subtítulos.</li>
+            <li>Explicar las palabras difíciles o el vocabulario nuevo antes de empezar.</li>
+            <li>Resaltar las ideas principales con esquemas o colores.</li>
+        </ul>
+    </div>
+
+    <div class="pane card">
+        <h3 style="color:var(--w);">Múltiples formas de Acción y Expresión</h3>
+        <p>Permite que el estudiante demuestre lo que aprendió usando sus mejores habilidades.</p>
+        <ul style="padding-left: 20px;">
+            <li>Dar la opción de responder con un examen, un dibujo, una maqueta o una exposición oral.</li>
+            <li>Permitir el uso de tecnología de apoyo (dictado por voz, calculadoras).</li>
+            <li>Ayudar a planificar las tareas paso a paso.</li>
+        </ul>
+    </div>
+
+    <h3 style="margin-top:35px;">Diferencias Claras: Aula Tradicional vs. Aula DUA</h3>
+    <div class="tw">
+        <table>
+            <thead>
+                <tr>
+                    <th>Aspecto</th>
+                    <th>Aula Tradicional</th>
+                    <th>Aula con DUA</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Punto de partida</b></td>
+                    <td>Se enseña pensando en un estudiante "promedio".</td>
+                    <td>Se reconoce que todos aprenden de forma diferente.</td>
+                </tr>
+                <tr>
+                    <td><b>Ajustes</b></td>
+                    <td>Se ayuda al estudiante solo cuando falla o le cuesta.</td>
+                    <td>Las opciones están listas desde que se planea la clase.</td>
+                </tr>
+                <tr>
+                    <td><b>Materiales</b></td>
+                    <td>Casi siempre solo texto escrito o fotocopias.</td>
+                    <td>Texto, imágenes, audios, objetos reales y videos.</td>
+                </tr>
+                <tr>
+                    <td><b>Demostrar lo aprendido</b></td>
+                    <td>Un solo examen escrito igual para todos.</td>
+                    <td>Opción de elegir entre redactar, hablar, dibujar o presentar.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card" style="margin-top:20px; border-left: 4px solid var(--p);">
+        <h3 style="margin-top:0;">💡 ¿Qué cambió en la versión actual (DUA 3.0)?</h3>
+        <p style="margin-bottom:0;">Anteriormente las guías se enfocaban mucho en el <i>"cómo presentar"</i> la materia. La nueva versión DUA 3.0 (2024) le da mayor importancia al <b>"Quién"</b>: reconoce las diferencias culturales, combate los prejuicios en el aula y promueve que el aprendizaje sea una experiencia alegre y compartida.</p>
+    </div>
+</section>
+
+<!-- SECCIÓN 3: La Importancia -->
+<section id="s3" class="reveal">
+    <span class="tag">Punto 3 · Aishelyn Guerrero Greenald</span>
+    <h2>La Importancia</h2>
+    <p class="lead">Por qué el DUA es indispensable en la educación de hoy.</p>
+
+    <div class="grid">
+        <div class="card">
+            <h3>🧠 Diversidad Real</h3>
+            <p>No existen dos cerebros iguales. En una misma clase hay alumnos que aprenden viendo, otros escuchando y otros haciendo.</p>
+        </div>
+        <div class="card">
+            <h3>⚖️ Respaldo Legal</h3>
+            <p>La Convención de la ONU y las leyes de Costa Rica (Ley 7600 y Ley 8661) exigen que la educación sea accesible para todas las personas.</p>
+        </div>
+        <div class="card">
+            <h3>🏫 Apoyo Institucional</h3>
+            <p>El Ministerio de Educación Pública (MEP) promueve el DUA como la guía para transformar las aulas en espacios verdaderamente inclusivos (MEP, 2023).</p>
+        </div>
+    </div>
+</section>
+
+<!-- SECCIÓN 4: Los Beneficios -->
+<section id="s4" class="reveal">
+    <span class="tag">Punto 4 · Aishelyn Guerrero Greenald</span>
+    <h2>Los Beneficios</h2>
+    <p class="lead">Toca cada tarjeta para descubrir las ventajas de aplicar el DUA:</p>
+
+    <div class="grid">
+        <div class="flip" onclick="this.classList.toggle('on')">
+            <div>
+                <div class="f"><h3>Inclusión Sin Separar</h3><small>Toca para ver ↺</small></div>
+                <div class="b">Todos participan en la misma clase con el mismo tema, sin mandar a nadie a hacer actividades "aparte".</div>
+            </div>
+        </div>
+        <div class="flip" onclick="this.classList.toggle('on')">
+            <div>
+                <div class="f"><h3>Previene Dificultades</h3><small>Toca para ver ↺</small></div>
+                <div class="b">Al ofrecer varias rutas desde el principio, se eliminan los tropiezos antes de que ocurran.</div>
+            </div>
+        </div>
+        <div class="flip" onclick="this.classList.toggle('on')">
+            <div>
+                <div class="f"><h3>Aumenta la Interés</h3><small>Toca para ver ↺</small></div>
+                <div class="b">Los estudiantes se entienden mejor con la materia y disminuye el aburrimiento o la frustración.</div>
+            </div>
+        </div>
+        <div class="flip" onclick="this.classList.toggle('on')">
+            <div>
+                <div class="f"><h3>Beneficia a Todo el Grupo</h3><small>Toca para ver ↺</small></div>
+                <div class="b">Un video explicativo o un resumen gráfico le ayuda a la persona que le cuesta, pero también al resto del grupo.</div>
+            </div>
+        </div>
+        <div class="flip" onclick="this.classList.toggle('on')">
+            <div>
+                <div class="f"><h3>Facilita el Trabajo Docente</h3><small>Toca para ver ↺</small></div>
+                <div class="b">Planear con opciones desde el inicio evita tener que improvisar cambios a última hora.</div>
+            </div>
+        </div>
+    </div>
+
+    <h3 style="margin-top:35px;">¿Qué concluye la investigación educativa?</h3>
+    <div class="grid">
+        <div class="card">
+            <h4>1. Mayor Participación</h4>
+            <p>Los estudios demuestran que las aulas con DUA logran que el alumnado se involucre más de forma activa.</p>
+        </div>
+        <div class="card">
+            <h4>2. Mejores Ambientes</h4>
+            <p>Disminuye el estrés en la clase tanto para los estudiantes como para los docentes.</p>
+        </div>
+        <div class="card">
+            <h4>3. Aprendizaje Real</h4>
+            <p>Facilita que las personas con distintas capacidades o idiomas alcancen las mismas metas que sus compañeros.</p>
+        </div>
+    </div>
+</section>
+
+<!-- SECCIÓN 5: Ejemplos Prácticos -->
+<section id="s5" class="reveal">
+    <span class="tag">Punto 5 · Bryan Gómez Peña</span>
+    <h2>Ejemplos Prácticos en el Aula</h2>
+    <p class="lead">Cómo se ve una clase comparando el método tradicional contra el enfoque DUA:</p>
+
+    <div class="card">
+        <h3>Ejemplo: Clase de Ciencias ("El Ciclo del Agua")</h3>
+        <p><b>Caso:</b> En el aula hay alumnos a quienes les cuesta leer textos largos, otros que se distraen fácil y otros que prefieren no hablar en público.</p>
+
+        <div class="tw">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Momento</th>
+                        <th>Clase Tradicional</th>
+                        <th>Clase con DUA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Explicación</b></td>
+                        <td>El docente lee un texto de 2 páginas y manda a copiar.</td>
+                        <td>Muestra un dibujo corto, un video de 3 minutos con subtítulos y una maqueta. <span class="pill p">Representación</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Motivación</b></td>
+                        <td>"Abran el libro en la página 40".</td>
+                        <td>Pregunta: "¿De dónde viene el agua que tomamos?". Permite elegir el tema del grupo. <span class="pill h">Implicación</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Evaluación</b></td>
+                        <td>Un examen escrito único para todos.</td>
+                        <td>Permite elegir entre: hacer un dibujo explicativo, grabar un audio breve o exponer. <span class="pill w">Acción</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <h3>Ejemplos por Materia</h3>
+    <details open>
+        <summary>📖 Lectura y Escritura</summary>
+        <ul style="padding-left: 20px; margin: 8px 0;">
+            <li>Ofrecer la opción de escuchar el texto en audio en lugar de solo leerlo impreso.</li>
+            <li>Permitir dictar las respuestas por voz si escribir a mano resulta difícil.</li>
+        </ul>
+    </details>
+    <details>
+        <summary>🔢 Matemáticas</summary>
+        <ul style="padding-left: 20px; margin: 8px 0;">
+            <li>Usar figuras recortables o fichas concretas para entender las fracciones antes de escribirlas en papel.</li>
+            <li>Plantear ejercicios con compras cotidianas en lugar de solo números abstractos.</li>
+        </ul>
+    </details>
+</section>
+
+<!-- SECCIÓN 6: Recomendaciones -->
+<section id="s6" class="reveal">
+    <span class="tag">Punto 6 · Bryan Gómez Peña</span>
+    <h2>Recomendaciones para Empezar</h2>
+    
+    <div class="simple">
+         No intentemos transformar toda nuestra clase de la noche a la mañana. Comencemos agregando una única opción nueva a una lección y observemos cuidadosamente los resultados. Este enfoque gradual nos permitirá aprender qué funciona mejor con nuestros estudiantes.
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Paso 1: Definir la Meta</h3>
+            <p>Separar la meta del medio. Ejemplo: Si la meta es "demostrar que entendió la historia", el medio no tiene por qué ser obligatoriamente escribir un informe en papel.</p>
+        </div>
+        <div class="card">
+            <h3>Paso 2: Detectar Barreras</h3>
+            <p>Preguntarnos antes de la clase: "¿Qué podría hacer que un estudiante se bloquee hoy? ¿El texto es muy largo? ¿El espacio es ruidoso?".</p>
+        </div>
+        <div class="card">
+            <h3>Paso 3: Ofrecer Opciones</h3>
+            <p>Agregar un video corto para apoyar la lectura o permite que entreguen el trabajo de dos formas distintas.</p>
+        </div>
+    </div>
+
+    <h3 style="margin-top:35px;">Mitos y Realidades</h3>
+    <div class="tw">
+        <table>
+            <thead>
+                <tr>
+                    <th>Mito Falso</th>
+                    <th>Realidad Basada en DUA</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="color:var(--h); font-weight:700;">✕ "El DUA es solo para alumnos con discapacidad."</td>
+                    <td>✓ Ayuda a estudiantes con alguna condición, pero beneficia a toda la clase por igual.</td>
+                </tr>
+                <tr>
+                    <td style="color:var(--h); font-weight:700;">✕ "Aplicar DUA es bajar la exigencia."</td>
+                    <td>✓ La meta y el rigor se mantienen iguales; lo que cambia es el camino para llegar a ellos.</td>
+                </tr>
+                <tr>
+                    <td style="color:var(--h); font-weight:700;">✕ "Requiere usar demasiada tecnología."</td>
+                    <td>✓ Un dibujo, una maqueta de cartón o un trabajo en parejas son tan DUA como una computadora.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- SECCIÓN 7: Conclusión -->
+<section id="s7" class="reveal">
+    <span class="tag">Punto 7 · Bryan Gómez Peña</span>
+    <h2>Conclusión</h2>
+    <div class="card">
+        <p>El DUA nos invita a transformar una pregunta fundamental: en lugar de preguntarnos <i>"¿qué problema tiene este estudiante que no aprende?", nos preguntamos "¿qué barreras presenta mi clase y cómo puedo flexibilizarla?"</i>. Cuando diseñamos con múltiples alternativas desde el inicio no como parche, sino como estructura garantizamos una educación equitativa, humana y verdaderamente accesible.</p>
+        <p style="font-size:22px; font-weight:800; color:var(--p); text-align:center; margin-top:20px;">
+            “Diseñar para la diversidad desde el comienzo no es solo inclusión: es justicia educativa.”
+        </p>
+    </div>
+</section>
+
+<!-- SECCIÓN 8: Actividad Dinámica con Casos de Estudio -->
+<!--<section id="actividad" class="reveal">
+    <span class="tag">Punto 8 · Actividad Grupal (Aishelyn, Bryan y Onixsa)</span>
+    <h2>Actividad Dinámica: Casos de Estudio</h2>
+    <p class="lead">Analicemos y conversemos sobre los siguientes casos durante el desarrollo de la clase:</p>
+
+    <div class="quiz-container">
+        <header style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: var(--p); margin-bottom: 10px; font-size: 1.8rem;">Desafíos Pedagógicos en el Aula</h1>
+            <p style="color: var(--mu); font-size: 1.05rem;">Analiza cada situación de I y II ciclo, selecciona una opción y descubre la retroalimentación correspondiente basada en los principios del DUA.</p>
+        </header>
+
+        <!-- Caso 1 -->
+        <!--<div class="case-card">
+            <h2 class="case-title">Caso 1: La diversidad de estilos de aprendizaje en la clase de Matemáticas</h2>
+            <div class="case-scenario">
+                Durante una clase de matemáticas en cuarto año, el docente nota que mientras algunos estudiantes comprenden los problemas al leerlos en la pizarra, otros necesitan manipular objetos concretos (como regletas o fichas), y unos pocos prefieren escuchar una explicación paso a paso o ver un esquema visual para entender la suma de fracciones. Ante esto, el docente planifica su lección ofreciendo múltiples formas de presentar la información y permitiendo que los alumnos elijan cómo demostrar lo aprendido.
+            </div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(1, 'A', true)">Opción A: El docente está aplicando el Principio I: Proporcionar múltiples formas de representación (el "qué" del aprendizaje).</button>
+                <div id="feedback-1-A" class="feedback"></div>
+
+                <button class="option-btn" onclick="checkAnswer(1, 'B', false)">Opción B: El docente está aplicando el Principio II: Proporcionar múltiples formas de expresión y acción (el "cómo" del aprendizaje).</button>
+                <div id="feedback-1-B" class="feedback"></div>
+
+                <button class="option-btn" onclick="checkAnswer(1, 'C', false)">Opción C: El docente está aplicando el Principio III: Proporcionar múltiples formas de implicación (el "por qué" del aprendizaje).</button>
+                <div id="feedback-1-C" class="feedback"></div>
+            </div>
+        </div>
+
+        <!-- Caso 2 -->
+        <!--<div class="case-card">
+            <h2 class="case-title">Caso 2: Fomentando la autonomía y la participación activa en Estudios Sociales</h2>
+            <div class="case-scenario">
+                En una clase de sexto grado sobre historia de Costa Rica, la maestra propone que los estudiantes expongan los hallazgos de su investigación. Para ello, les da la libertad de presentar un sociodrama, grabar un pódcast educativo, redactar un periódico escolar o elaborar una infografía digital, permitiendo además que cada equipo elija el nivel de desafío con el que se siente más cómodo para trabajar según sus fortalezas.
+            </div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(2, 'A', false)">Opción A: El docente está aplicando el Principio I: Proporcionar múltiples formas de representación (el "qué" del aprendizaje).</button>
+                <div id="feedback-2-A" class="feedback"></div>
+
+                <button class="option-btn" onclick="checkAnswer(2, 'B', true)">Opción B: El docente está aplicando el Principio II: Proporcionar múltiples formas de expresión y acción (el "cómo" del aprendizaje).</button>
+                <div id="feedback-2-B" class="feedback"></div>
+
+                <button class="option-btn" onclick="checkAnswer(2, 'C', false)">Opción C: El docente está aplicando el Principio III: Proporcionar múltiples formas de implicación (el "por qué" del aprendizaje).</button>
+                <div id="feedback-2-C" class="feedback"></div>
+            </div>
+        </div>
+
+        <!-- Caso 3 -->
+        <!--<div class="case-card">
+            <h2 class="case-title">Caso 3: Despertando el interés y la motivación ante la lectura en Español</h2>
+            <div class="case-scenario">
+                Al iniciar un proyecto de lectura de cuentos tradicionales en segundo año de escuela, el docente observa apatía y poco entusiasmo en los niños. Para involucrarlos, decide iniciar cada sesión con un misterio relacionado con los personajes, permite que los alumnos elijan los temas de lectura según sus propios intereses y establece metas de superación personal donde cada estudiante compite únicamente contra su propio récord de lectura semanal, minimizando la comparación negativa.
+            </div>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkAnswer(3, 'A', false)">Opción A: El docente está aplicando el Principio I: Proporcionar múltiples formas de representación (el "qué" del aprendizaje).</button>
+                <div id="feedback-3-A" class="feedback"></div>
+
+                <button class="option-btn" onclick="checkAnswer(3, 'B', false)">Opción B: El docente está aplicando el Principio II: Proporcionar múltiples formas de expresión y acción (el "cómo" del aprendizaje).</button>
+                <div id="feedback-3-B" class="feedback"></div>
+
+                <button class="option-btn" onclick="checkAnswer(3, 'C', true)">Opción C: El docente está aplicando el Principio III: Proporcionar múltiples formas de implicación (el "por qué" del aprendizaje).</button>
+                <div id="feedback-3-C" class="feedback"></div>
+            </div>
+        </div>
+    </div>
+</section>--->
+
+<!-- FUENTES BIBLIOGRÁFICAS -->
+<footer id="ref">
+    <h2>Referencias Bibliográficas</h2>
+    <ul>
+        <li>Alba Pastor, C., Sánchez Hípola, P., Sánchez Serrano, J. M., & Zubillaga del Río, A. (2013). <i>Diseño Universal para el Aprendizaje (DUA): Pautas para su introducción en el currículo.</i> Traducción de CAST (2011), v. 2.0.</li>
+        <li>CAST (2024). <i>Universal Design for Learning Guidelines version 3.0.</i> Disponible en https://udlguidelines.cast.org</li>
+        <li>Ministerio de Educación Pública de Costa Rica (2023). <i>Avanzar hacia la educación inclusiva: líneas de acción.</i> DAEED-MEP.</li>
+        <li>Naciones Unidas (2006). <i>Convención sobre los Derechos de las Personas con Discapacidad</i> (Arts. 2 y 24). Costa Rica: Ley 7600 (1996) y Ley 8661 (2008).</li>
+        <li>Rose, D. H., & Meyer, A. (2002). <i>Teaching every student in the digital age: Universal design for learning.</i> ASCD.</li>
+    </ul>
+</footer>
+
+<script>
+    // Indicador de barra de lectura superior
+    var bar = document.getElementById('bar');
+    addEventListener('scroll', function() {
+        var totalHeight = document.body.scrollHeight - innerHeight;
+        if(totalHeight > 0) {
+            bar.style.width = (scrollY / totalHeight * 100) + '%';
+        }
+    });
+
+    // Animación de aparición con scroll
+    var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(x) {
+            if (x.isIntersecting) x.target.classList.add('in');
+        });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.reveal').forEach(function(s) { io.observe(s); });
+
+    // Pestañas interactivas de principios
+    var tb = document.querySelectorAll('#tabs button');
+    var pn = document.querySelectorAll('#s2 .pane');
+    tb.forEach(function(b, i) {
+        b.onclick = function() {
+            tb.forEach(function(x, j) {
+                x.classList.toggle('on', i == j);
+                pn[j].classList.toggle('on', i == j);
+            });
+        };
+    });
+
+    // Función para verificar los casos de estudio dinámicos
+    function checkAnswer(caseNum, option, isCorrect) {
+        const messages = {
+            1: {
+                'A': { 
+                    correct: true, 
+                    text: '¡Respuesta correcta! El docente está aplicando el Principio I: Proporcionar múltiples formas de representación (el "qué" del aprendizaje). Este principio se enfoca en presentar la información y los contenidos de diversas maneras (auditiva, visual, manipulativa) para dar respuesta a las diferentes formas en que los alumnos perciben y comprenden la información en el I y II ciclo.' 
+                },
+                'B': { 
+                    correct: false, 
+                    text: 'Esta opción no es la correcta. Aunque los estudiantes eligen cómo demostrar lo aprendido, la acción central descrita en el escenario se enfoca en cómo se presenta la información inicial de forma variada para que todos la puedan captar. ¡Inténtalo de nuevo seleccionando otra respuesta!' 
+                },
+                'C': { 
+                    correct: false, 
+                    text: 'Esta opción no es la correcta. Este principio aborda la motivación y el interés afectivo del estudiante, no la diversificación en la forma de presentar los contenidos curriculares de matemáticas. ¡Revisa las opciones y prueba otra vez!' 
+                }
+            },
+            2: {
+                'A': { 
+                    correct: false, 
+                    text: 'Esta opción no es la correcta. En este caso no se está variando la manera en que se expone la teoría al grupo, sino la forma en que los alumnos demuestran lo que saben hacer. ¡Elige otra opción para encontrar la correcta!' 
+                },
+                'B': { 
+                    correct: true, 
+                    text: '¡Respuesta correcta! El docente está aplicando el Principio II: Proporcionar múltiples formas de expresión y acción (el "cómo" del aprendizaje). Este principio busca ofrecer distintas alternativas para que el alumnado de segundo ciclo exprese lo que sabe (origen de productos como pódcasts, infografías, sociodramas) y organice su propio aprendizaje mediante la acción y la ejecución de tareas.' 
+                },
+                'C': { 
+                    correct: false, 
+                    text: 'Esta opción no es la correcta. Si bien dar opciones fomenta la motivación, la esencia de este caso radica en la diversidad de medios y herramientas de ejecución y expresión que utilizan los escolares. ¡Inténtalo de nuevo con otra alternativa!' 
+                }
+            },
+            3: {
+                'A': { 
+                    correct: false, 
+                    text: 'Esta opción no es la correcta. La estrategia no busca cambiar el formato del texto escrito, sino incidir directamente en el entusiasmo, la participación y el compromiso emocional de los estudiantes. ¡Selecciona otra respuesta!' 
+                },
+                'B': { 
+                    correct: false, 
+                    text: 'Esta opción no es la correcta. Esta opción se relaciona con la ejecución motora o la forma de responder a las tareas, mientras que el escenario describe un estímulo enfocado en el interés y la iniciativa afectiva. ¡Prueba con la opción restante!' 
+                },
+                'C': { 
+                    correct: true, 
+                    text: '¡Respuesta correcta! El docente está aplicando el Principio III: Proporcionar múltiples formas de implicación (el "por qué" del aprendizaje). Este principio atiende la dimensión afectiva y motivacional del aprendizaje, estimulando el interés intrínseco, la autonomía, la autorregulación y el valor de las tareas en los niños de primer ciclo.' 
+                }
+            }
+        };
+
+        // Ocultar todas las retroalimentaciones del caso actual
+        ['A', 'B', 'C'].forEach(opt => {
+            const fb = document.getElementById(`feedback-${caseNum}-${opt}`);
+            if (fb) {
+                fb.style.display = 'none';
+                fb.className = 'feedback';
+            }
+        });
+
+        // Mostrar el mensaje correspondiente
+        const targetFeedback = document.getElementById(`feedback-${caseNum}-${option}`);
+        const data = messages[caseNum][option];
+        
+        if (targetFeedback) {
+            targetFeedback.textContent = data.text;
+            if (data.correct) {
+                targetFeedback.classList.add('correct');
+            } else {
+                targetFeedback.classList.add('incorrect');
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
